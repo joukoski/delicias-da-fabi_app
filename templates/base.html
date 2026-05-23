@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Delícias da Fabi{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="{% url 'home' %}" class="logo">🍰 Delícias da Fabi</a>
+      <nav class="nav">
+        <a href="{% url 'home' %}">Início</a>
+        <a href="{% url 'produtos' %}">Produtos</a>
+        <a href="{% url 'produtos' %}?categoria=">Categorias</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>{% block conteudo %}{% endblock %}</main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>🍰 Delícias da Fabi — Feito com amor e muito açúcar 💕</p>
+    </div>
+  </footer>
+</body>
+</html>

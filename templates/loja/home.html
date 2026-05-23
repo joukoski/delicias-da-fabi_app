@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block titulo %}Delícias da Fabi — Bolos e Doces Artesanais{% endblock %}
+
+{% block conteudo %}
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-texto">
+      <h1>Feito com amor,<br>entregue com carinho 🍰</h1>
+      <p>Bolos artesanais, doces finos e sobremesas especiais para tornar cada momento único.</p>
+      <a href="{% url 'produtos' %}" class="btn btn-primary">Ver Produtos</a>
+    </div>
+    <div class="hero-emoji">🎂</div>
+  </div>
+</section>
+
+<!-- Categorias -->
+{% if categorias %}
+<section class="secao container">
+  <h2 class="secao-titulo">Nossas Categorias</h2>
+  <div class="categorias-grid">
+    {% for cat in categorias %}
+    <a href="{% url 'produtos' %}?categoria={{ cat.id }}" class="categoria-card">
+      <span class="cat-icone">{{ cat.icone }}</span>
+      <span class="cat-nome">{{ cat.nome }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- Destaques -->
+{% if destaques %}
+<section class="secao container">
+  <h2 class="secao-titulo">✨ Destaques da Semana</h2>
+  <div class="produtos-grid">
+    {% for produto in destaques %}
+    <a href="{% url 'detalhe_produto' produto.pk %}" class="produto-card">
+      <div class="produto-img">
+        {% if produto.imagem %}
+          <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+        {% else %}
+          <span class="produto-emoji">🍰</span>
+        {% endif %}
+        {% if produto.destaque %}<span class="badge-destaque">Destaque</span>{% endif %}
+      </div>
+      <div class="produto-info">
+        <span class="produto-categoria">{{ produto.categoria }}</span>
+        <h3>{{ produto.nome }}</h3>
+        <p>{{ produto.descricao|truncatewords:12 }}</p>
+        <span class="produto-preco">R$ {{ produto.preco }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  <div style="text-align:center;margin-top:2rem;">
+    <a href="{% url 'produtos' %}" class="btn btn-outline">Ver todos os produtos →</a>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

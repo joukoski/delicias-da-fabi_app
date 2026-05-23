@@ -1,2 +1,7 @@
-flask
-gunicorn
+django==5.0.6
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
+pillow==10.3.0
+whitenoise==6.7.0
+dj-database-url==2.1.0
+python-decouple==3.8

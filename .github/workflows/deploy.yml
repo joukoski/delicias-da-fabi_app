@@ -1,0 +1,47 @@
+name: Build and Deploy Delícias da Fabi
+
+env:
+  REGISTRY: aulas.azurecr.io
+  IMAGE_NAME: delicias-fabi
+  AZURE_WEBAPP_NAME: websander
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Login no Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: aulas.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build e Push da imagem Docker
+        run: |
+          docker build -t aulas.azurecr.io/delicias-fabi:${{ github.sha }} .
+          docker push aulas.azurecr.io/delicias-fabi:${{ github.sha }}
+          docker tag aulas.azurecr.io/delicias-fabi:${{ github.sha }} aulas.azurecr.io/delicias-fabi:latest
+          docker push aulas.azurecr.io/delicias-fabi:latest
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy no Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: websander
+          images: aulas.azurecr.io/delicias-fabi:${{ github.sha }}
