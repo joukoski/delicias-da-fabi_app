@@ -8,4 +8,4 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "python manage.py migrate && gunicorn delicias_fabi.wsgi:application --bind 0.0.0.0:${PORT:-8080} --workers 2 --threads 4 --timeout 120"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py createsuperuser --noinput || true && gunicorn delicias_fabi.wsgi:application --bind 0.0.0.0:${PORT:-8080} --workers 2 --threads 4 --timeout 120"]git add .
