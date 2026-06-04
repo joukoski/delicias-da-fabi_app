@@ -12,6 +12,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
 CSRF_TRUSTED_ORIGINS = [
     'https://delicias-da-fabiapp-production.up.railway.app',
+    'https://sanderson-hzebhqddbhfufgex.centralus-01.azurewebsites.net',
 ]
 
 INSTALLED_APPS = [
